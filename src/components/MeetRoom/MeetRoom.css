@@ -1,0 +1,166 @@
+.meet-room-container {
+  position: relative;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.video-container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: #1a1a1a;
+}
+
+.chat-container {
+  flex: 1;
+  border-left: 1px solid #2d2d2d;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.model-toggle-button {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1000;
+  font-weight: bold;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.model-toggle-button:hover {
+  background-color: #003d82;
+  transform: translateY(-2px);
+}
+
+.model-toggle-button.active {
+  background-color: #d9534f;
+}
+
+.model-toggle-button.active:hover {
+  background-color: #c9302c;
+}
+
+/* Face detection and emotion display styles */
+.str-video__speaker-layout__spotlight {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.str-video__speaker-layout__spotlight__wrapper {
+  position: relative;
+  width: 100% !important;
+  height: auto !important;
+}
+
+.str-video__speaker-layout__spotlight video {
+  width: 100%;
+  height: auto;
+  display: block;
+  background-color: #000;
+}
+
+/* Detection canvas overlay */
+.str-video__speaker-layout__spotlight canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none;
+}
+
+/* Face detection box styling */
+.faceapi-canvas {
+  z-index: 10;
+}
+
+.faceapi-canvas .face-detection-box {
+  border: 3px solid #4caf50;
+  background-color: rgba(76, 175, 80, 0.1);
+  position: absolute;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+/* Emotion text styling */
+.emotion-label {
+  position: absolute;
+  color: #4caf50;
+  font-size: 16px;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2px 8px;
+  border-radius: 4px;
+  z-index: 20;
+  white-space: nowrap;
+}
+
+/* Spotlight highlight effect */
+.spotlight-highlight .str-video__speaker-layout__spotlight {
+  position: relative;
+  border: 4px solid #4caf50;
+  border-radius: 16px;
+  padding: 4px;
+  box-shadow: 0 0 20px #4caf50;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.spotlight-highlight .str-video__speaker-layout__spotlight video {
+  outline: 4px solid #4caf50;
+  border-radius: 12px;
+  box-shadow: 0 0 15px 3px rgba(76, 175, 80, 0.8);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .meet-room-container {
+    flex-direction: column;
+  }
+  
+  .video-container,
+  .chat-container {
+    flex: none;
+    height: 50vh;
+  }
+  
+  .chat-container {
+    border-left: none;
+    border-top: 1px solid #2d2d2d;
+  }
+  
+  .model-toggle-button {
+    bottom: 10px;
+    left: 10px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .emotion-label {
+    font-size: 14px;
+  }
+}
+
+/* Animation for emotion changes */
+@keyframes emotion-change {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.emotion-change {
+  animation: emotion-change 0.5s ease;
+}

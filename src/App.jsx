@@ -1,27 +1,21 @@
 import React, { useEffect } from "react";
-import { SignedIn, SignedOut } from "@clerk/clerk-react";
-import { useUser } from "@clerk/clerk-react";
-import { useUserStore} from "./store";
+import { SignedIn, SignedOut, useUser } from "@clerk/clerk-react";
+import { useUserStore } from "./store";
 import { db } from "./firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import StreamVideoProvider from "./components/provider/StreamVideoProvider";
-import ChatProvider from "./components/provider/ChatProvider"; // Directly import StreamProvider
+import ChatProvider from "./components/provider/ChatProvider";
 import Home from "./components/HomeComp/Home";
 import UserInterface from "./components/UserComp/UserInterface";
 import MeetRoom from "./components/MeetRoom/MeetRoom";
+import DeviceTest from "./components/Device-test/DeviceTest";
 
 function App() {
   const { user } = useUser();
   const setCurrentUser = useUserStore((state) => state.setCurrentUser);
   const currentUser = useUserStore((state) => state.currentUser);
 
-  useEffect(() => {
-    console.log("Clerk user object:", user);
-    console.log("Current user in Zustand store:", currentUser);
-  }, [user, currentUser]);
-
-  
   useEffect(() => {
     if (user) {
       setCurrentUser(user);
@@ -44,9 +38,7 @@ function App() {
           console.error("Error syncing user to Firebase ❌", error);
         }
       };
-
       sendUserToFirebase();
-      
     }
   }, [user, setCurrentUser]);
 
@@ -75,6 +67,14 @@ function App() {
                   <MeetRoom />
                 </ChatProvider>
               </StreamVideoProvider>
+            </SignedIn>
+          }
+        />
+        <Route
+          path="/device-test/:meetId"
+          element={
+            <SignedIn>
+              <DeviceTest />
             </SignedIn>
           }
         />
