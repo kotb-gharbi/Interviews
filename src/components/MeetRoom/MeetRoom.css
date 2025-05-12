@@ -22,145 +22,116 @@
   flex-direction: column;
 }
 
-.model-toggle-button {
+/* Detection Controls */
+.detection-controls {
   position: absolute;
   bottom: 20px;
   left: 20px;
-  padding: 10px 20px;
-  background-color: #0056b3;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.detection-button {
+  padding: 12px 24px !important;
+  background-color: #0e66af !important; /* RED when inactive */
+  color: white !important;
+  border: none !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  font-weight: bold !important;
+  font-size: 14px !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+  min-width: 160px !important;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s ease !important;
+}
+
+.detection-button.active {
+  background-color: #d32f2f !important; /* Blue when active */
+}
+
+.detection-button:hover {
+  transform: translateY(-2px) !important;
+}
+
+/* Detection result shown in top-right */
+.detection-result-topright {
+  position: absolute;
+  top: 35px;
+  right: 20px;
+  background: rgba(211, 47, 47, 0.9);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.fps-selector {
+  margin-bottom: 5px;
+}
+
+.fps-dropdown {
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: #1E88E5;
   color: white;
   border: none;
-  border-radius: 8px;
+  font-size: 13px;
   cursor: pointer;
-  z-index: 1000;
-  font-weight: bold;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-  font-size: 14px;
 }
 
-.model-toggle-button:hover {
-  background-color: #003d82;
-  transform: translateY(-2px);
+.fps-dropdown option {
+  background: #1565C0;
 }
 
-.model-toggle-button.active {
-  background-color: #d9534f;
-}
-
-.model-toggle-button.active:hover {
-  background-color: #c9302c;
-}
-
-/* Face detection and emotion display styles */
-.str-video__speaker-layout__spotlight {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.str-video__speaker-layout__spotlight__wrapper {
-  position: relative;
-  width: 100% !important;
-  height: auto !important;
-}
-
-.str-video__speaker-layout__spotlight video {
-  width: 100%;
-  height: auto;
-  display: block;
-  background-color: #000;
-}
-
-/* Detection canvas overlay */
-.str-video__speaker-layout__spotlight canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
-  pointer-events: none;
-}
-
-/* Face detection box styling */
-.faceapi-canvas {
-  z-index: 10;
-}
-
-.faceapi-canvas .face-detection-box {
-  border: 3px solid #4caf50;
-  background-color: rgba(76, 175, 80, 0.1);
-  position: absolute;
-  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
-}
-
-/* Emotion text styling */
-.emotion-label {
-  position: absolute;
-  color: #4caf50;
-  font-size: 16px;
-  font-weight: bold;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 2px 8px;
-  border-radius: 4px;
-  z-index: 20;
-  white-space: nowrap;
-}
-
-/* Spotlight highlight effect */
+/* Spotlight effect */
 .spotlight-highlight .str-video__speaker-layout__spotlight {
   position: relative;
-  border: 4px solid #4caf50;
+  border: 4px solid #1E88E5;
   border-radius: 16px;
   padding: 4px;
-  box-shadow: 0 0 20px #4caf50;
+  box-shadow: 0 0 20px #1E88E5;
   transition: all 0.3s ease;
   overflow: hidden;
 }
 
-.spotlight-highlight .str-video__speaker-layout__spotlight video {
-  outline: 4px solid #4caf50;
-  border-radius: 12px;
-  box-shadow: 0 0 15px 3px rgba(76, 175, 80, 0.8);
-}
-
-/* Responsive adjustments */
+/* Responsive styles */
 @media (max-width: 768px) {
   .meet-room-container {
     flex-direction: column;
   }
-  
+
   .video-container,
   .chat-container {
     flex: none;
     height: 50vh;
   }
-  
+
   .chat-container {
     border-left: none;
     border-top: 1px solid #2d2d2d;
   }
-  
-  .model-toggle-button {
+
+  .detection-controls {
     bottom: 10px;
     left: 10px;
-    padding: 8px 12px;
+  }
+
+  .detection-button {
+    padding: 10px 16px;
+    font-size: 13px;
+    min-width: 140px;
+  }
+
+  .fps-dropdown {
+    padding: 6px 10px;
     font-size: 12px;
   }
-  
-  .emotion-label {
-    font-size: 14px;
-  }
-}
-
-/* Animation for emotion changes */
-@keyframes emotion-change {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
-}
-
-.emotion-change {
-  animation: emotion-change 0.5s ease;
 }
