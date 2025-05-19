@@ -50,10 +50,6 @@ export const useJoinCall = (videoClient, meetId) => {
         console.error("Error joining call:", err);
         setError("Failed to join call");
       });
-
-    return () => {
-      callInstance?.leave().catch(console.error);
-    };
   }, [videoClient, meetId]);
 
   return { call, error };
