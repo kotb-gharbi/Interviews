@@ -84,7 +84,7 @@ function EmotionSummary({ data = [] }) {
 
       
       <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-sm font-medium text-gray-500 mb-2">AVERAGE MODELCONFIDENCE</h2>
+        <h2 className="text-sm font-medium text-gray-500 mb-2">AVERAGE MODEL CONFIDENCE</h2>
         <div className="mt-3">
           <div className="flex items-center justify-between">
             <span className="text-2xl font-semibold">{avgConfidence.toFixed(1)}%</span>

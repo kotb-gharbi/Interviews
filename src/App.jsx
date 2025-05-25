@@ -86,7 +86,7 @@ function App() {
         />
 
         <Route
-          path="/emotion-analytics"
+          path="/emotion-stats"
           element={
             <SignedIn>
               <AdminProtectedRoute>

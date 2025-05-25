@@ -33,6 +33,7 @@ import {
   usechannelIdStore,
   useEmotionStore,
 } from "../../store";
+import logo from "../../assets/tale-logo.png";
 
 const MemoizedVideoComponent = memo(
   ({
@@ -41,7 +42,7 @@ const MemoizedVideoComponent = memo(
     isAlone,
     highlightSpotlight,
     emotionDetectionRef,
-    userRole, // Add userRole as a prop
+    userRole, 
   }) => {
     const containerRef = useRef(null);
     const navigate = useNavigate();
@@ -71,7 +72,7 @@ const MemoizedVideoComponent = memo(
       } catch (error) {
         console.error("Error leaving call:", error);
       } finally {
-        navigate(userRole === "host" ? "/emotion-analytics" : "/");
+        navigate(userRole === "host" ? "/emotion-stats" : "/");
       }
     }, [call, navigate, userRole, isLeaving]);
 
@@ -169,13 +170,11 @@ const FaceDetectionCanvas = memo(({ faceDetection }) => {
     if (!videoElement) return;
     
     const containerRect = containerRef.current.getBoundingClientRect();
-
     const videoRect = videoElement.getBoundingClientRect();
 
     canvasRef.current.width = containerRect.width;
     canvasRef.current.height = containerRect.height;
     
-
     const scaleX = videoRect.width / faceDetection.sourceWidth;
     const scaleY = videoRect.height / faceDetection.sourceHeight;
     
@@ -204,7 +203,7 @@ const FaceDetectionCanvas = memo(({ faceDetection }) => {
       if (faceDetection.emotion) {
         ctx.font = 'bold 16px Arial';
         ctx.fillStyle = '#1E88E5';
-        // Position the text above the detection box
+        
         ctx.fillText(
           `${faceDetection.emotion} (${Math.round(faceDetection.confidence * 100)}%)`,
           scaledX, 
@@ -271,7 +270,6 @@ const MeetRoom = () => {
         const faceapi = await import("face-api.js");
         faceapiModule = faceapi;
         
-        // Load required face detection models
         await faceapi.nets.tinyFaceDetector.loadFromUri("/models");
         
         startDetection(faceapi);
@@ -306,7 +304,6 @@ const MeetRoom = () => {
           processingInProgress = true;
 
           try {
-            // Create canvas at video dimensions
             const canvas = document.createElement("canvas");
             canvas.width = videoElement.videoWidth || 640;
             canvas.height = videoElement.videoHeight || 480;
@@ -314,17 +311,14 @@ const MeetRoom = () => {
             const ctx = canvas.getContext("2d", { willReadFrequently: true });
             ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
 
-            // Detect faces
             const detections = await faceapi.detectAllFaces(
               canvas,
               new faceapi.TinyFaceDetectorOptions({ inputSize: 320 })
             );
 
             if (detections.length > 0) {
-              // Store face detection data for drawing the box
               const detection = detections[0];
               
-              // Extract face for emotion analysis
               const faceImages = await faceapi.extractFaces(canvas, [detection]);
               let emotionInfo = null;
               
@@ -342,7 +336,6 @@ const MeetRoom = () => {
                 });
               }
             } else {
-              // No face detected
               if (isMounted) {
                 setFaceDetection(null);
               }
@@ -407,45 +400,14 @@ const MeetRoom = () => {
   }, [highlightSpotlight, addEmotionEntry]);
 
   const CustomChannelHeader = () => (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "64px",
-        backgroundColor: "#fff",
-        borderBottom: "1px solid #f0f0f0",
-        padding: "0 20px",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-        }}
-      >
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M15 8V16H5V8H15ZM16 6H4C3.45 6 3 6.45 3 7V17C3 17.55 3.45 18 4 18H16C16.55 18 17 17.55 17 17V13.5L21 17.5V6.5L17 10.5V7C17 6.45 16.55 6 16 6Z"
-            fill="#555"
-          />
-        </svg>
-        <h2
-          style={{
-            margin: 0,
-            fontSize: "18px",
-            fontWeight: 500,
-            color: "#333",
-            fontFamily: "system-ui, -apple-system, sans-serif",
-          }}
-        >
+    <div className="custom-channel-header">
+      <div className="header-content">
+        <img 
+          src={logo} 
+          alt="Company Logo" 
+          className="h-6 w-auto object-contain" 
+        />
+        <h2 className="header-title">
           Meeting Room
         </h2>
       </div>
@@ -457,7 +419,6 @@ const MeetRoom = () => {
   };
 
   useEffect(() => {
-    // Set up the face detection canvas overlay
     const setupFaceDetectionCanvas = () => {
       const videoContainer = document.querySelector('.str-video__speaker-layout__spotlight');
       if (videoContainer && !document.querySelector('.face-detection-overlay')) {
@@ -467,7 +428,6 @@ const MeetRoom = () => {
       }
     };
     
-    // Check for video container readiness
     const checkInterval = setInterval(() => {
       if (document.querySelector('.str-video__speaker-layout__spotlight')) {
         setupFaceDetectionCanvas();
@@ -520,7 +480,6 @@ const MeetRoom = () => {
           onToggleDetection={handleToggleDetection}
         />
 
-        {/* Face detection canvas overlay */}
         {highlightSpotlight && faceDetection && (
           <FaceDetectionCanvas faceDetection={faceDetection} />
         )}
